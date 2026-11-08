@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://minajahmednxlv78-hue.github.io/sitemap.xml

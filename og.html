@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1200, initial-scale=1">
+<style>
+  @font-face{font-family:"Instrument Serif";src:url("/fonts/InstrumentSerif-Regular.woff2") format("woff2");font-weight:400;font-style:normal}
+  @font-face{font-family:"Instrument Serif";src:url("/fonts/InstrumentSerif-Italic.woff2") format("woff2");font-weight:400;font-style:italic}
+  @font-face{font-family:"Inter Tight";src:url("/fonts/InterTight-Variable.woff2") format("woff2");font-weight:400 700}
+  @font-face{font-family:"JetBrains Mono";src:url("/fonts/JetBrainsMono-Variable.woff2") format("woff2");font-weight:400 600}
+  *{box-sizing:border-box}
+  html,body{margin:0;width:1200px;height:630px;overflow:hidden;background:#070708;color:#F4EFE6}
+  body{font-family:"Inter Tight",Arial,sans-serif;position:relative}
+  canvas{position:absolute;right:0;top:0;width:700px;height:630px;opacity:.9}
+  .wrap{position:relative;z-index:2;height:100%;padding:54px 64px;display:flex;flex-direction:column;justify-content:space-between}
+  .label{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.16em;color:rgba(244,239,230,.62);text-transform:lowercase}
+  .name{font-family:"Instrument Serif",Georgia,serif;font-size:132px;line-height:.82;letter-spacing:-.035em;margin:26px 0 0;max-width:760px}
+  .sub{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:38px;color:#FF8A5B;margin:18px 0 0}
+  .bottom{display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+  .bottom .right{text-align:right;font-family:"JetBrains Mono",monospace;font-size:12px;line-height:1.8;letter-spacing:.12em;color:rgba(244,239,230,.62);text-transform:lowercase}
+  .rule{width:100%;height:1px;background:rgba(244,239,230,.18);margin:20px 0}
+  .accent{position:absolute;left:64px;bottom:0;width:3px;height:78px;background:#E4572E}
+</style>
+</head>
+<body>
+<canvas id="dots" width="700" height="630"></canvas>
+<div class="wrap">
+  <div>
+    <div class="label">/ minaj ahmed · golaghat, assam</div>
+    <h1 class="name">From Ember<br>to Chrome</h1>
+    <p class="sub">A story in dots</p>
+  </div>
+  <div>
+    <div class="rule"></div>
+    <div class="bottom">
+      <div class="label">computer science student · open to internships</div>
+      <div class="right">minajahmednxlv78@gmail.com<br>github.com/minajahmednxlv78-hue</div>
+    </div>
+  </div>
+</div>
+<div class="accent"></div>
+<script>
+const canvas = document.getElementById('dots');
+const ctx = canvas.getContext('2d');
+const img = new Image();
+img.src = '/assets/portrait/hero-960.jpg';
+img.onload = () => {
+  const dpr = 2;
+  canvas.width = 700 * dpr;
+  canvas.height = 630 * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const off = document.createElement('canvas');
+  off.width = 350; off.height = 315;
+  const o = off.getContext('2d', {willReadFrequently:true});
+  // cover crop: use the top two-thirds so the face sits in the frame
+  const iw = img.naturalWidth, ih = img.naturalHeight;
+  const target = 700 / 630;
+  const source = iw / ih;
+  let sx=0, sy=0, sw=iw, sh=ih;
+  if (source > target) { sw = ih * target; sx = (iw - sw)/2; }
+  else { sh = iw / target; sy = (ih - sh)/2 - ih*0.06; }
+  o.drawImage(img, sx, sy, sw, sh, 0, 0, 350, 315);
+  const data = o.getImageData(0,0,350,315);
+  const cell = 11;
+  ctx.fillStyle = 'rgba(244,239,230,.92)';
+  for (let y=0; y<630; y+=cell) {
+    for (let x=0; x<700; x+=cell) {
+      const px = Math.floor((x/700)*350), py = Math.floor((y/630)*315);
+      const idx = (py*350+px)*4;
+      const r=data.data[idx], g=data.data[idx+1], b=data.data[idx+2];
+      const lum=(r*.2126+g*.7152+b*.0722)/255;
+      const level=Math.max(0, (lum-0.035)/0.88);
+      const rad=Math.pow(level,1.05)*cell*.48;
+      if (rad>0.3) {
+        ctx.beginPath();
+        ctx.arc(x+cell/2,y+cell/2,rad,0,Math.PI*2);
+        ctx.fill();
+      }
+    }
+  }
+};
+</script>
+</body>
+</html>

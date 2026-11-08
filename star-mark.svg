@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Four-point chrome star">
+  <defs>
+    <linearGradient id="m" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".2" stop-color="#d7dee6"/>
+      <stop offset=".44" stop-color="#6f7885"/>
+      <stop offset=".54" stop-color="#f8fbff"/>
+      <stop offset=".74" stop-color="#8f9aa8"/>
+      <stop offset="1" stop-color="#e8eef5"/>
+    </linearGradient>
+    <radialGradient id="g" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".36"/>
+      <stop offset="1" stop-color="#d7dee6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="400" fill="#070708"/>
+  <circle cx="200" cy="200" r="190" fill="url(#g)"/>
+  <path d="M200 26 C207 122 278 193 374 200 C278 207 207 278 200 374 C193 278 122 207 26 200 C122 193 193 122 200 26 Z" fill="url(#m)" stroke="#f8fbff" stroke-opacity=".35" stroke-width="1"/>
+</svg>
